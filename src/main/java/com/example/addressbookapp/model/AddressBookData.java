@@ -1,13 +1,21 @@
 package com.example.addressbookapp.model;
+
 import com.example.addressbookapp.dto.AddressBookDTO;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "address_book")
 public class AddressBookData {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String address;
 
-    public AddressBookData() {
-    }
+    public AddressBookData() {}
 
     public AddressBookData(int id, AddressBookDTO dto) {
         this.id = id;
@@ -41,6 +49,10 @@ public class AddressBookData {
 
     @Override
     public String toString() {
-        return "AddressBookData [id=" + id + ", name=" + name + ", address=" + address + "]";
+        return "AddressBookData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
