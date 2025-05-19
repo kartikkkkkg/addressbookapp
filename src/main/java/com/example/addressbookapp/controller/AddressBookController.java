@@ -6,6 +6,7 @@ import com.example.addressbookapp.service.IAddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -33,20 +34,17 @@ public class AddressBookController {
     }
 
     @PostMapping
-    public ResponseEntity<AddressBookData> createEntry(@RequestBody AddressBookDTO dto) {
+    public ResponseEntity<AddressBookData> createEntry(@Valid @RequestBody AddressBookDTO dto) {
         AddressBookData newData = addressBookService.createData(dto);
         return ResponseEntity.status(201).body(newData);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEntry(@PathVariable int id, @RequestBody AddressBookDTO dto) {
+    public ResponseEntity<?> updateEntry(@PathVariable int id, @Valid @RequestBody AddressBookDTO dto) {
         AddressBookData updated = addressBookService.updateData(id, dto);
-        if (updated != null) {
-            return ResponseEntity.ok(updated);
-        } else {
-            return ResponseEntity.status(404).body("Entry not found");
-        }
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.status(404).body("Entry not found");
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEntry(@PathVariable int id) {
@@ -58,4 +56,5 @@ public class AddressBookController {
             return ResponseEntity.status(404).body("Entry not found");
         }
     }
+    
 }
